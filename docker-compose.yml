@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend-java
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nlp-service
+
+  nlp-service:
+    build: ./python-ml-services/nlp-service
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend-react
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:8080
